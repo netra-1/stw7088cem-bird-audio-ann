@@ -1,0 +1,35 @@
+schema_version = "1.0"
+selection_seed = 20260713
+candidate_pool_target_recordings_per_species = 80
+target_recordings_per_species = 40
+candidate_order = "ascending_sha256_json_seed_scientific_name_recording_id"
+fallback_policy = "inactive_until_one_primary_complete_terminal_inventory_has_fewer_than_40_eligible_sessions"
+
+[reference_allocation]
+source = "frozen_known_test_only"
+method = "joint_stratum_largest_remainder"
+remainder_tie_break = "ascending_sha256_json_seed_stratum"
+within_stratum_order = "ascending_sha256_json_seed_stratum_recording_id_sha256"
+
+[strata]
+field_order = ["container", "source_rate_bucket", "channels", "quality", "duration_bucket"]
+container = ["mp3", "riff_wave", "other"]
+source_rate_bucket = ["32000", "44100", "48000", "above_48000", "other_eligible"]
+channels = ["mono", "stereo", "other"]
+quality = ["A", "B"]
+duration_bucket = ["below_3", "3_to_below_10", "10_to_below_30", "30_to_below_60", "at_least_60"]
+
+[matching]
+algorithm = "deterministic_rectangular_hungarian_minimum_sum"
+categorical_fields = ["container", "source_rate_bucket", "channels", "quality", "duration_bucket"]
+categorical_cost = "mismatch_count"
+duration_cost = "absolute_log1p_seconds"
+duration_log_scale = 1000000000000
+tie_break = "sha256_json_seed_slot_id_candidate_id"
+objective_priority = "total_categorical_then_total_duration_then_total_pair_hash"
+
+[descriptor_policy]
+known_source_fields = ["recording_id", "sha256", "session_group", "header_type", "source_sample_rate_hz", "channels", "quality", "canonical_duration_seconds"]
+assignment_slot_fields = ["slot_id", "container", "source_rate_bucket", "channels", "quality", "duration_bucket", "duration_seconds"]
+assignment_candidate_fields = ["candidate_id", "session_group", "container", "source_rate_bucket", "channels", "quality", "duration_bucket", "duration_seconds"]
+forbidden_outcome_fields = ["audio_energy", "listening_preference", "model_output", "model_score", "embedding", "threshold_result", "test_outcome"]

@@ -1,0 +1,57 @@
+schema_version = "1.0"
+candidate_pool_target_recordings_per_species = 80
+target_recordings_per_species = 40
+
+[api]
+version = "xeno-canto_api_v3"
+endpoint = "https://xeno-canto.org/api/3/recordings"
+query_form = "grp:birds gen:<genus> sp:<specific_epithet>"
+api_key_environment = "XENO_CANTO_API_KEY"
+request_interval_seconds = 1.0
+timeout_seconds = 30.0
+maximum_retries = 5
+pagination_policy = "all_server_reported_pages_in_ascending_order"
+snapshot_consistency = "exact_numRecordings_numSpecies_numPages_and_page"
+duplicate_recording_policy = "fatal"
+
+[[species]]
+role = "primary"
+active = true
+common_name = "Brown-headed Barbet"
+scientific_name = "Psilopogon zeylanicus"
+difficulty_group = "family_matched"
+
+[[species]]
+role = "primary"
+active = true
+common_name = "Jungle Myna"
+scientific_name = "Acridotheres fuscus"
+difficulty_group = "family_matched"
+
+[[species]]
+role = "primary"
+active = true
+common_name = "Pied Kingfisher"
+scientific_name = "Ceryle rudis"
+difficulty_group = "family_matched"
+
+[[species]]
+role = "primary"
+active = true
+common_name = "House Crow"
+scientific_name = "Corvus splendens"
+difficulty_group = "other_family"
+
+[[species]]
+role = "primary"
+active = true
+common_name = "Grey Francolin"
+scientific_name = "Ortygornis pondicerianus"
+difficulty_group = "other_family"
+
+[[species]]
+role = "fallback"
+active = false
+common_name = "Oriental Turtle Dove"
+scientific_name = "Streptopelia orientalis"
+difficulty_group = "fallback"

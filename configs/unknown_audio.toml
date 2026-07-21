@@ -1,0 +1,65 @@
+schema_version = "1.0"
+selection_seed = 20260713
+candidate_pool_target_recordings_per_species = 80
+target_recordings_per_species = 40
+expected_retained_known_recordings = 1792
+session_scope = "joint_retained_known_and_all_unknown"
+cross_unknown_species_session_policy = "exclude_entire_component"
+session_review_policy = "exclude"
+canonical_policy = "earliest_queue_rank_metadata_eligible_before_audio_qc_no_replacement"
+fallback_policy = "activate_only_after_exactly_one_primary_terminally_has_fewer_than_40"
+
+[inputs]
+candidate_plan = "data/unknown/planning/unknown_candidate_plan_v1.json"
+candidate_plan_lock = "data/unknown/planning/unknown_candidate_plan_v1_lock.json"
+known_manifest = "data/manifests/recordings.csv"
+
+[metadata]
+accepted_quality = ["A", "B"]
+required_group = "birds"
+recognized_licence_policy = "canonical_creative_commons_uri"
+secondary_label_policy = "exclude_every_other_configured_study_species"
+api_sample_rate_policy = "advisory_only"
+api_duration_policy = "advisory_only"
+
+[session]
+coordinate_radius_km = 1.0
+missing_date_policy = "exclude_after_conservative_grouping"
+missing_recordist_policy = "exclude_after_conservative_grouping"
+invalid_coordinates_policy = "exclude_after_conservative_grouping"
+same_individual_reference_policy = "global_link_or_exclude_unresolved"
+
+[audio_qc]
+minimum_source_sample_rate_hz = 32000
+accepted_channels = [1, 2]
+accepted_header_types = ["mp3_id3", "mpeg_audio", "riff_wave", "rf64_wave"]
+minimum_decoded_to_ffprobe_duration_ratio = 0.98
+maximum_decoded_to_ffprobe_duration_ratio = 1.02
+full_decode_warning_policy = "exclude"
+canonical_duration_source = "full_decode"
+
+[estimation]
+assumed_source_bitrate_kbps = 192
+working_space_multiplier = 2.0
+minimum_free_space_reserve_bytes = 1073741824
+
+[download]
+allowed_initial_hosts = ["xeno-canto.org"]
+allowed_redirect_hosts = ["xeno-canto.org"]
+maximum_redirects = 3
+request_interval_seconds = 1.0
+timeout_seconds = 60.0
+total_timeout_seconds = 900.0
+maximum_retries = 3
+maximum_retry_after_seconds = 60.0
+chunk_size_bytes = 1048576
+maximum_file_size_bytes = 536870912
+user_agent = "STW7088CEM-bird-audio-coursework/0.1"
+proxy_policy = "disabled"
+cookie_policy = "disabled"
+
+[outputs]
+working_directory = "data/unknown/interim/audio_acquisition_v1"
+raw_directory = "data/unknown/raw/audio_v1"
+audit = "data/unknown/audio/unknown_audio_audit_v1.json"
+audit_lock = "data/unknown/audio/unknown_audio_audit_v1_lock.json"

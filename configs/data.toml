@@ -1,0 +1,174 @@
+schema_version = "1.0"
+raw_audio_dir = "dataset"
+local_manifest = "data/manifests/local_recordings.csv"
+enriched_manifest = "data/manifests/recordings.csv"
+split_manifest = "data/splits/split_v1.csv"
+split_summary = "data/splits/split_v1_summary.json"
+split_lock = "data/splits/split_v1_lock.json"
+minimum_source_sample_rate_hz = 32000
+target_sample_rate_hz = 32000
+target_channels = 1
+audio_dtype = "float32"
+clip_duration_seconds = 3.0
+split_seed = 20260713
+train_fraction = 0.70
+validation_fraction = 0.15
+test_fraction = 0.15
+
+[quality_control]
+full_decode_warning_policy = "exclude"
+minimum_decoded_to_ffprobe_duration_ratio = 0.98
+maximum_decoded_to_ffprobe_duration_ratio = 1.02
+
+[session_grouping]
+coordinate_radius_km = 1.0
+missing_date_policy = "manual_review_and_conservative_grouping"
+missing_recordist_policy = "manual_review_and_conservative_grouping"
+missing_location_policy = "connect_within_recordist_date"
+same_individual_reference_policy = "global_link_or_manual_review"
+
+[clip_selection]
+maximum_clips_per_recording = 5
+uniform_clip_count_formula = "min(5,max(1,floor(duration_seconds/3)))"
+uniform_start_rule = "linspace_0_to_duration_minus_3"
+energy_candidate_hop_seconds = 1.5
+include_end_aligned_candidate = true
+energy_measure = "mean_unlogged_stft_power_150_to_14000_hz"
+tie_break = "earlier_start"
+minimum_selected_start_separation_seconds = 3.0
+epoch_draws = "selected_training_clip_count"
+
+[spectrogram]
+n_fft = 1024
+win_length = 1024
+hop_length = 256
+window = "hann"
+center = false
+n_mels = 128
+f_min_hz = 150
+f_max_hz = 14000
+power = 2.0
+mel_scale = "slaney"
+htk = false
+mel_normalization = "slaney"
+power_to_db_reference = "per_clip_max"
+power_to_db_amin = 1e-10
+minimum_db = -80.0
+maximum_db = 0.0
+output_height = 224
+output_width = 224
+expected_native_height = 128
+expected_native_width = 372
+resize_mode = "bicubic"
+resize_align_corners = false
+resize_antialias = true
+
+[[known_species]]
+folder = "Asian_Koel"
+common_name = "Asian Koel"
+scientific_name = "Eudynamys scolopaceus"
+
+[[known_species]]
+folder = "Black_Drongo"
+common_name = "Black Drongo"
+scientific_name = "Dicrurus macrocercus"
+
+[[known_species]]
+folder = "Blue-throated_Barbet"
+common_name = "Blue-throated Barbet"
+scientific_name = "Psilopogon asiaticus"
+
+[[known_species]]
+folder = "Common_Cuckoo"
+common_name = "Common Cuckoo"
+scientific_name = "Cuculus canorus"
+
+[[known_species]]
+folder = "Common_Iora"
+common_name = "Common Iora"
+scientific_name = "Aegithina tiphia"
+
+[[known_species]]
+folder = "Common_Kingfisher"
+common_name = "Common Kingfisher"
+scientific_name = "Alcedo atthis"
+
+[[known_species]]
+folder = "Common_Myna"
+common_name = "Common Myna"
+scientific_name = "Acridotheres tristis"
+
+[[known_species]]
+folder = "Common_Tailorbird"
+common_name = "Common Tailorbird"
+scientific_name = "Orthotomus sutorius"
+
+[[known_species]]
+folder = "Eurasian_Hoopoe"
+common_name = "Eurasian Hoopoe"
+scientific_name = "Upupa epops"
+
+[[known_species]]
+folder = "Great_Barbet"
+common_name = "Great Barbet"
+scientific_name = "Psilopogon virens"
+
+[[known_species]]
+folder = "Greater_Coucal"
+common_name = "Greater Coucal"
+scientific_name = "Centropus sinensis"
+
+[[known_species]]
+folder = "Red-vented_Bulbul"
+common_name = "Red-vented Bulbul"
+scientific_name = "Pycnonotus cafer"
+
+[[known_species]]
+folder = "Rose-ringed_Parakeet"
+common_name = "Rose-ringed Parakeet"
+scientific_name = "Psittacula krameri"
+
+[[known_species]]
+folder = "Spotted_Dove"
+common_name = "Spotted Dove"
+scientific_name = "Spilopelia chinensis"
+
+[[known_species]]
+folder = "White-throated_Kingfisher"
+common_name = "White-throated Kingfisher"
+scientific_name = "Halcyon smyrnensis"
+
+[[unknown_species]]
+common_name = "Brown-headed Barbet"
+scientific_name = "Psilopogon zeylanicus"
+difficulty_group = "family_matched"
+target_recordings = 40
+
+[[unknown_species]]
+common_name = "Jungle Myna"
+scientific_name = "Acridotheres fuscus"
+difficulty_group = "family_matched"
+target_recordings = 40
+
+[[unknown_species]]
+common_name = "Pied Kingfisher"
+scientific_name = "Ceryle rudis"
+difficulty_group = "family_matched"
+target_recordings = 40
+
+[[unknown_species]]
+common_name = "House Crow"
+scientific_name = "Corvus splendens"
+difficulty_group = "other_family"
+target_recordings = 40
+
+[[unknown_species]]
+common_name = "Grey Francolin"
+scientific_name = "Ortygornis pondicerianus"
+difficulty_group = "other_family"
+target_recordings = 40
+
+[[fallback_unknown_species]]
+common_name = "Oriental Turtle Dove"
+scientific_name = "Streptopelia orientalis"
+target_recordings = 40

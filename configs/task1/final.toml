@@ -1,0 +1,75 @@
+task = "classification"
+architecture = "efficientnet_b0"
+pretrained_weights = "EfficientNet_B0_Weights.IMAGENET1K_V1"
+pretrained_weight_cache_hash_required = true
+class_count = 15
+dropout = 0.2
+aggregation = "mean_logits"
+primary_metric = "recording_macro_f1"
+zero_division = 0
+seeds = [13, 37, 71]
+rung = "final"
+description = "Locked EfficientNet-B0 coursework configuration"
+trainable_backbone_from_block = 6
+trainable_feature_indices = [6, 7, 8]
+class_order = [
+  "Asian Koel",
+  "Black Drongo",
+  "Blue-throated Barbet",
+  "Common Cuckoo",
+  "Common Iora",
+  "Common Kingfisher",
+  "Common Myna",
+  "Common Tailorbird",
+  "Eurasian Hoopoe",
+  "Great Barbet",
+  "Greater Coucal",
+  "Red-vented Bulbul",
+  "Rose-ringed Parakeet",
+  "Spotted Dove",
+  "White-throated Kingfisher",
+]
+
+[training]
+optimizer = "adamw"
+scheduler = "none"
+maximum_epochs = 30
+early_stopping_patience = 5
+batch_size = 32
+weight_decay = 0.0001
+head_learning_rate = 0.0003
+backbone_learning_rate = 0.00003
+pin_memory = false
+num_workers = 0
+mixed_precision = false
+dtype = "float32"
+device_preference = "mps"
+allow_mps_fallback = false
+request_deterministic_algorithms = true
+determinism_failure_policy = "fail_and_log"
+seed_python = true
+seed_numpy = true
+seed_torch = true
+seed_sampler = true
+checkpoint_metric = "validation_recording_macro_f1"
+checkpoint_mode = "max"
+checkpoint_tie_break_1 = "lower_validation_loss"
+checkpoint_tie_break_2 = "earlier_epoch"
+log_parameter_counts = true
+
+[sampling]
+maximum_clips_per_recording = 5
+recording_balanced_weights = true
+strategy = "energy"
+
+[augmentation]
+specaugment = true
+frequency_mask_max_bins = 16
+time_mask_max_frames = 40
+frequency_mask_probability = 0.5
+time_mask_probability = 0.5
+fill_value = 0.0
+
+[loss]
+name = "cross_entropy"
+reduction = "mean"

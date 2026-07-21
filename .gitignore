@@ -1,0 +1,32 @@
+.DS_Store
+.env
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Raw and derived audio are local data, not source files.
+dataset/
+data/interim/*
+data/processed/*
+data/unknown/raw/*
+data/unknown/interim/*
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!data/unknown/raw/.gitkeep
+!data/unknown/interim/.gitkeep
+
+# Training artifacts can be large and are reproduced from tracked configs.
+runs/task1/*
+runs/task2/*
+!runs/task1/.gitkeep
+!runs/task2/.gitkeep
+*.pt
+*.pth
+*.ckpt
+*.parquet
